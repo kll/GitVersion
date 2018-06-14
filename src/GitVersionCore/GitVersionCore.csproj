@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.3;net40</TargetFrameworks>    
+    <TargetFramework>netstandard2.0</TargetFramework>
     <OutputType>Library</OutputType>
     <RootNamespace>GitVersion</RootNamespace>
     <AssemblyName>GitVersionCore</AssemblyName>
@@ -27,16 +27,9 @@
     <GenerateAssemblyTitleAttribute Condition="'$(GenerateAssemblyTitleAttribute)' == ''">false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyVersionAttribute Condition="'$(GenerateAssemblyVersionAttribute)' == ''">false</GenerateAssemblyVersionAttribute>
     <GenerateNeutralResourcesLanguageAttribute Condition="'$(GenerateNeutralResourcesLanguageAttribute)' == ''">true</GenerateNeutralResourcesLanguageAttribute>
+    <DefineConstants>TRACE;</DefineConstants>
   </PropertyGroup>
  
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
-    <DefineConstants>TRACE;NET40;NETDESKTOP</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-    <DefineConstants>TRACE;NETSTANDARD1_3;</DefineConstants>
-  </PropertyGroup>
-
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Any CPU' ">
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -57,34 +50,9 @@
     <PackageReference Include="GitTools.Core" Version="$(PackageVersion_GitToolsCore)" />
     <PackageReference Include="YamlDotNet" Version="$(PackageVersion_YamlDotNet)" />
     <PackageReference Include="LibGit2Sharp.NativeBinaries" Version="$(PackageVersion_LibGit2SharpNativeBinaries)" PrivateAssets="contentFiles" />  
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net40' ">
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    
-    
-    <PackageReference Include="AsyncBridge" Version="0.1.1">
-      <PrivateAssets>All</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
-    <PackageReference Include="System.Net.Requests" Version="4.3.0" />
-    <PackageReference Include="System.Net.Http" Version="4.3.2" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
-    <PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
-    <PackageReference Include="System.Text.Encoding.Extensions" Version="4.3.0" />
-    <PackageReference Include="System.Threading" Version="4.3.0" />  
   </ItemGroup>
-
+ 
   <ItemGroup>
     <Compile Remove="GitVersionInformationResources\AddFormats\**\*.*" />
     <Compile Remove="GitVersionInformationResources\Templates\**\*.*" />
@@ -100,7 +68,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="app.config" />
     <None Include="NugetAssets\GitVersion.nuspec">
       <SubType>Designer</SubType>
     </None>

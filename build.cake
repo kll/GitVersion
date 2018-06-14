@@ -72,12 +72,12 @@ Task("Version")
         UpdateAssemblyInfo = true,
         LogFilePath = "console",
         OutputType = GitVersionOutput.BuildServer,
-        ToolPath = @"src\GitVersionExe\bin\Release\net40\GitVersion.exe"
+        ToolPath = @"src\GitVersionExe\bin\Release\net461\GitVersion.exe"
     });
     GitVersion assertedVersions = GitVersion(new GitVersionSettings
     {
         OutputType = GitVersionOutput.Json,
-        ToolPath = @"src\GitVersionExe\bin\Release\net40\GitVersion.exe"
+        ToolPath = @"src\GitVersionExe\bin\Release\net461\GitVersion.exe"
     });
 
     version = assertedVersions.MajorMinorPatch;
@@ -158,7 +158,7 @@ void ILRepackGitVersionExe(bool includeLibGit2Sharp)
 	 var tempMergeDir = "ILMergeTemp";
 	 var exeName = "GitVersion.exe";
 	 var keyFilePath = "./src/key.snk";
-	 var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net40/";
+	 var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";
 	 var targetPath = targetDir + exeName;
 
      CreateDirectory(tempMergeDir);
@@ -191,7 +191,7 @@ Task("Commandline-Package")
 	 CreateDirectory(toolsDir);
 	 CreateDirectory(libDir);
 	 
-	 var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net40/";	
+	 var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";	
 
 	var libGitFiles = GetFiles(targetDir + "LibGit2Sharp.dll*");    
 	var nugetAssetsPath = "./src/GitVersionExe/NugetAssets/";	
@@ -237,7 +237,7 @@ Task("Portable-Package")
 	 CreateDirectory(toolsDir);
 	 CreateDirectory(libDir);
 	 
-	 var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net40/";	
+	 var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";	
 	
 	var nugetAssetsPath = "./src/GitVersionExe/NugetAssets/";	
 	Information("Copying files to packaging direcory..");
