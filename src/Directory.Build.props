@@ -1,6 +1,7 @@
 <Project>
  <PropertyGroup>
    <PackageVersion_YamlDotNet>4.2.3</PackageVersion_YamlDotNet>
-   <PackageVersion_LibGit2SharpNativeBinaries>[1.0.217]</PackageVersion_LibGit2SharpNativeBinaries>
+   <PackageVersion_LibGit2Sharp>0.26.0-preview-0027</PackageVersion_LibGit2Sharp>
+   <PackageVersion_LibGit2SharpNativeBinaries>1.0.226</PackageVersion_LibGit2SharpNativeBinaries>
  </PropertyGroup>
 </Project>

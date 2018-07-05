@@ -47,9 +47,10 @@
   </PropertyGroup> 
 
   <ItemGroup>     
-    <PackageReference Include="YamlDotNet" Version="$(PackageVersion_YamlDotNet)" />
+    <PackageReference Include="LibGit2Sharp" Version="$(PackageVersion_LibGit2Sharp)" />
     <PackageReference Include="LibGit2Sharp.NativeBinaries" Version="$(PackageVersion_LibGit2SharpNativeBinaries)" PrivateAssets="contentFiles" />  
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+    <PackageReference Include="YamlDotNet" Version="$(PackageVersion_YamlDotNet)" />
   </ItemGroup>
  
   <ItemGroup>
