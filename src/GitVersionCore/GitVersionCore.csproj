@@ -47,7 +47,6 @@
   </PropertyGroup> 
 
   <ItemGroup>     
-    <PackageReference Include="GitTools.Core" Version="$(PackageVersion_GitToolsCore)" />
     <PackageReference Include="YamlDotNet" Version="$(PackageVersion_YamlDotNet)" />
     <PackageReference Include="LibGit2Sharp.NativeBinaries" Version="$(PackageVersion_LibGit2SharpNativeBinaries)" PrivateAssets="contentFiles" />  
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
@@ -71,6 +70,10 @@
     <None Include="NugetAssets\GitVersion.nuspec">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GitTools.Core\GitTools.Core.csproj" />
   </ItemGroup>
 
 </Project>

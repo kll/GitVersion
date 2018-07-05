@@ -38,8 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
-    <PackageReference Include="GitTools.Core" Version="$(PackageVersion_GitToolsCore)"></PackageReference>
-    <PackageReference Include="GitTools.Testing" Version="1.2.0"></PackageReference>
     <PackageReference Include="JetBrains.Annotations" Version="10.4.0"></PackageReference>
     <PackageReference Include="Mono.Cecil" Version="0.9.6.4"></PackageReference>
     <PackageReference Include="NSubstitute" Version="1.10.0"></PackageReference>
@@ -60,6 +58,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>    
+    <ProjectReference Include="..\GitTools.Core\GitTools.Core.csproj" />    
+    <ProjectReference Include="..\GitTools.Testing\GitTools.Testing.csproj" />    
     <ProjectReference Include="..\GitVersionCore\GitVersionCore.csproj" />    
     <ProjectReference Include="..\GitVersionExe\GitVersionExe.csproj" />    
   </ItemGroup>

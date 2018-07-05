@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <OutputType>Library</OutputType>
+
+    <!--Start of Nuspec metadata-->
+    <PackageId>GitTools.Core</PackageId>
+    <Title>GitTools.Core</Title>
+    <Authors>GitTools Contributors</Authors>
+    <PackageProjectUrl>https://github.com/GitTools/GitTools.Core</PackageProjectUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageTags>git tools</PackageTags>
+    <Description>Core library for GitTools</Description>
+    <Copyright>Copyright GitTools 2015.</Copyright>
+    <PackageLicenseUrl>https://github.com/GitTools/GitTools.Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.github.com/GitTools/GitTools.Core/master/GitTools_logo.png</PackageIconUrl>
+    <DefineConstants>TRACE;LIBLOG_PORTABLE;</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="LibGit2Sharp" Version="0.25.2" />
+    <PackageReference Include="JetBrains.Annotations" Version="10.4.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.3.0" />
+    <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
+  </ItemGroup>
+</Project>

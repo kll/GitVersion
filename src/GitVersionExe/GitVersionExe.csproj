@@ -40,7 +40,6 @@
 
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">  
     
-    <PackageReference Include="GitTools.Core" Version="$(PackageVersion_GitToolsCore)"></PackageReference>
     <PackageReference Include="JetBrains.Annotations" Version="10.4.0"></PackageReference>    
    
     <Reference Include="Microsoft.CSharp" />
@@ -78,6 +77,7 @@
   </ItemGroup> 
   
   <ItemGroup>
+    <ProjectReference Include="..\GitTools.Core\GitTools.Core.csproj" />
     <ProjectReference Include="..\GitVersionCore\GitVersionCore.csproj" />     
   </ItemGroup>
  
