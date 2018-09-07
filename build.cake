@@ -336,6 +336,23 @@ Task("GitVersion-DotNet-Package")
     var nuGetPackSettings  = new NuGetPackSettings {  Version = nugetVersion, BasePath  = outputDir, OutputDirectory = outputDir };
     NuGetPack(outputDir + "/GitVersion.CommandLine.DotNetCore.nuspec", nuGetPackSettings);
 
+})
+.ReportError(exception =>
+{
+    Error(exception.Dump());
+});
+
+Task("GitVersion-DotNetCoreTool-Package")
+    .Description("Produces the nuget package for GitVersion global tool")
+    .Does(() =>
+{
+    var msBuildSettings = new DotNetCoreMSBuildSettings();
+    msBuildSettings.SetVersion(nugetVersion);
+    msBuildSettings.Properties["PackageVersion"] = new string[]{ nugetVersion };
+
+    var outputDir = buildDir + "NuGetExeDotNetCoreToolBuild";
+    CreateDirectory(outputDir);
+
     DotNetCorePack("./src/GitVersionExe/GitVersion.Tool.csproj", new DotNetCorePackSettings {
         Configuration = configuration,
         OutputDirectory = outputDir,
@@ -346,7 +363,6 @@ Task("GitVersion-DotNet-Package")
 {
     Error(exception.Dump());
 });
-
 
 Task("GitVersionTaskPackage")
     .Description("Produces the nuget package for GitVersionTask")
@@ -383,6 +399,7 @@ Task("Zip-Files")
     .IsDependentOn("GitVersionCore-Package")
     .IsDependentOn("GitVersionTaskPackage")
     .IsDependentOn("GitVersion-DotNet-Package")
+    .IsDependentOn("GitVersion-DotNetCoreTool-Package")
     .IsDependentOn("Run-Tests-In-NUnitConsole")
     .Does(() =>
 {
@@ -448,7 +465,7 @@ Task("Upload-AppVeyor-Artifacts")
         "NuGetExeBuild:GitVersion.Portable." + nugetVersion +".nupkg",
         "NuGetCommandLineBuild:GitVersion.CommandLine." + nugetVersion +".nupkg",
         "NuGetExeDotNetCoreBuild:GitVersion.CommandLine.DotNetCore." + nugetVersion +".nupkg",
-        "NuGetExeDotNetCoreBuild:GitVersion.CommandLine.DotNetCore.Tool." + nugetVersion +".nupkg",
+        "NuGetExeDotNetCoreToolBuild:GitVersion.CommandLine.DotNetCore.Tool." + nugetVersion +".nupkg",
         "NuGetRefBuild:GitVersionCore." + nugetVersion +".nupkg",
         "NuGetTaskBuild:GitVersionTask." + nugetVersion +".nupkg",
         "zip:GitVersion_" + nugetVersion + ".zip",
@@ -460,7 +477,7 @@ Task("Upload-AppVeyor-Artifacts")
     AppVeyor.UploadArtifact("build/NuGetExeBuild/GitVersion.Portable." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetCommandLineBuild/GitVersion.CommandLine." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetExeDotNetCoreBuild/GitVersion.CommandLine.DotNetCore." + nugetVersion +".nupkg");
-    AppVeyor.UploadArtifact("build/NuGetExeDotNetCoreBuild/GitVersion.CommandLine.DotNetCore.Tool." + nugetVersion +".nupkg");
+    AppVeyor.UploadArtifact("build/NuGetExeDotNetCoreToolBuild/GitVersion.CommandLine.DotNetCore.Tool." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetRefBuild/GitVersionCore." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetTaskBuild/GitVersionTask." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/GitVersion_" + nugetVersion + ".zip");

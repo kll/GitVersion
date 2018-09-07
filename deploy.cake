@@ -82,6 +82,7 @@ Task("DownloadGitHubReleaseArtifacts")
         if (!artifactLookup.ContainsKey("NuGetRefBuild")) { throw new Exception("NuGetRefBuild artifact missing"); }
         if (!artifactLookup.ContainsKey("NuGetCommandLineBuild")) { throw new Exception("NuGetCommandLineBuild artifact missing"); }
         if (!artifactLookup.ContainsKey("NuGetExeDotNetCoreBuild")) { throw new Exception("NuGetExeDotNetCoreBuild artifact missing"); }
+        if (!artifactLookup.ContainsKey("NuGetExeDotNetCoreToolBuild")) { throw new Exception("NuGetExeDotNetCoreToolBuild artifact missing"); }
         if (!artifactLookup.ContainsKey("NuGetTaskBuild")) { throw new Exception("NuGetTaskBuild artifact missing"); }
         if (!artifactLookup.ContainsKey("NuGetExeBuild")) { throw new Exception("NuGetExeBuild artifact missing"); }
         // if (!artifactLookup.ContainsKey("GemBuild")) { throw new Exception("GemBuild artifact missing"); }
@@ -141,6 +142,22 @@ Task("Publish-NuGetExeDotNetCore")
     publishingError = true;
 });
 
+Task("Publish-NuGetExeDotNetCoreTool")
+    .IsDependentOn("DownloadGitHubReleaseArtifacts")
+    .Does(() =>
+{
+    NuGetPush(
+        "./releaseArtifacts/" + artifactLookup["NuGetExeDotNetCoreToolBuild"],
+        new NuGetPushSettings {
+            ApiKey = EnvironmentVariable("NuGetApiKey"),
+            Source = "https://www.nuget.org/api/v2/package"
+        });
+})
+.OnError(exception =>
+{
+    Information("Publish-NuGet Task failed, but continuing with next Task...");
+    publishingError = true;
+});
 
 Task("Publish-MsBuildTask")
     .IsDependentOn("DownloadGitHubReleaseArtifacts")
