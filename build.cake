@@ -140,12 +140,12 @@ Task("Run-Tests")
     .IsDependentOn("DogfoodBuild")
     .Does(() =>
 {
-     var settings = new DotNetCoreTestSettings
-     {
+    var settings = new DotNetCoreTestSettings
+    {
         Configuration = configuration,
         NoBuild = true,
         Filter = "TestCategory!=NoMono"
-     };
+    };
 
      DotNetCoreTest("./src/GitVersionCore.Tests/GitVersionCore.Tests.csproj", settings);
      DotNetCoreTest("./src/GitVersionExe.Tests/GitVersionExe.Tests.csproj", settings);
@@ -155,24 +155,24 @@ Task("Run-Tests")
 
 void ILRepackGitVersionExe(bool includeLibGit2Sharp)
 {
-     var tempMergeDir = "ILMergeTemp";
-     var exeName = "GitVersion.exe";
-     var keyFilePath = "./src/key.snk";
-     var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";
-     var targetPath = targetDir + exeName;
+    var tempMergeDir = "ILMergeTemp";
+    var exeName = "GitVersion.exe";
+    var keyFilePath = "./src/key.snk";
+    var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";
+    var targetPath = targetDir + exeName;
 
-     CreateDirectory(tempMergeDir);
-     string outFilePath = "./" + tempMergeDir + "/" + exeName;
+    CreateDirectory(tempMergeDir);
+    string outFilePath = "./" + tempMergeDir + "/" + exeName;
 
-     var sourcePattern = targetDir + "*.dll";
-     var sourceFiles = GetFiles(sourcePattern);
-     if(!includeLibGit2Sharp)
-     {
-            var excludePattern = "**/LibGit2Sharp.dll";
-         sourceFiles = sourceFiles - GetFiles(excludePattern);
-     }
-     var settings = new ILRepackSettings { AllowDup = "", Keyfile = keyFilePath, Internalize = true, NDebug = true, TargetKind = TargetKind.Exe, TargetPlatform  = TargetPlatformVersion.v4, XmlDocs = false };
-     ILRepack(outFilePath, targetPath, sourceFiles, settings);
+    var sourcePattern = targetDir + "*.dll";
+    var sourceFiles = GetFiles(sourcePattern);
+    if(!includeLibGit2Sharp)
+    {
+        var excludePattern = "**/LibGit2Sharp.dll";
+        sourceFiles = sourceFiles - GetFiles(excludePattern);
+    }
+    var settings = new ILRepackSettings { AllowDup = "", Keyfile = keyFilePath, Internalize = true, NDebug = true, TargetKind = TargetKind.Exe, TargetPlatform  = TargetPlatformVersion.v4, XmlDocs = false };
+    ILRepack(outFilePath, targetPath, sourceFiles, settings);
 }
 
 
@@ -191,7 +191,7 @@ Task("Commandline-Package")
      CreateDirectory(toolsDir);
      CreateDirectory(libDir);
 
-     var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";
+    var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";
 
     var libGitFiles = GetFiles(targetDir + "LibGit2Sharp.dll*");
     var nugetAssetsPath = "./src/GitVersionExe/NugetAssets/";
@@ -227,17 +227,17 @@ Task("Portable-Package")
     .Does(() =>
 {
 
-     ILRepackGitVersionExe(true);
+    ILRepackGitVersionExe(true);
 
-     var outputDir = buildDir + "NuGetExeBuild";
-     var toolsDir = outputDir + "/tools";
-     var libDir = toolsDir + "/lib";
+    var outputDir = buildDir + "NuGetExeBuild";
+    var toolsDir = outputDir + "/tools";
+    var libDir = toolsDir + "/lib";
 
-     CreateDirectory(outputDir);
-     CreateDirectory(toolsDir);
-     CreateDirectory(libDir);
+    CreateDirectory(outputDir);
+    CreateDirectory(toolsDir);
+    CreateDirectory(libDir);
 
-     var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";
+    var targetDir = "./src/GitVersionExe/bin/" + configuration + "/net461/";
 
     var nugetAssetsPath = "./src/GitVersionExe/NugetAssets/";
     Information("Copying files to packaging direcory..");
@@ -269,21 +269,21 @@ Task("GitVersionCore-Package")
     .IsDependentOn("Build")
     .Does(() =>
 {
-     var outputDir = buildDir + "NuGetRefBuild";
-     CreateDirectory(outputDir);
+    var outputDir = buildDir + "NuGetRefBuild";
+    CreateDirectory(outputDir);
 
-     var msBuildSettings = new DotNetCoreMSBuildSettings();
-     msBuildSettings.SetVersion(nugetVersion);
-     msBuildSettings.Properties["PackageVersion"] = new string[]{ nugetVersion };
-     var settings = new DotNetCorePackSettings
-     {
-         Configuration = configuration,
-         OutputDirectory = outputDir,
-         NoBuild = true,
-         MSBuildSettings = msBuildSettings
-     };
+    var msBuildSettings = new DotNetCoreMSBuildSettings();
+    msBuildSettings.SetVersion(nugetVersion);
+    msBuildSettings.Properties["PackageVersion"] = new string[]{ nugetVersion };
+    var settings = new DotNetCorePackSettings
+    {
+        Configuration = configuration,
+        OutputDirectory = outputDir,
+        NoBuild = true,
+        MSBuildSettings = msBuildSettings
+    };
 
-     DotNetCorePack("./src/GitVersionCore", settings);
+    DotNetCorePack("./src/GitVersionCore", settings);
 })
 .ReportError(exception =>
 {
@@ -298,34 +298,31 @@ Task("GitVersion-DotNet-Package")
     // var publishDir = buildDir + "Published";
     // CreateDirectory(outputDir);
 
-     var outputDir = buildDir + "NuGetExeDotNetCoreBuild";
-     var toolsDir = outputDir + "/tools";
-     var libDir = toolsDir + "/lib";
+    var outputDir = buildDir + "NuGetExeDotNetCoreBuild";
+    var toolsDir = outputDir + "/tools";
+    var libDir = toolsDir + "/lib";
 
-     CreateDirectory(outputDir);
-     CreateDirectory(toolsDir);
-     CreateDirectory(libDir);
-
-
-     var msBuildSettings = new DotNetCoreMSBuildSettings();
-     msBuildSettings.SetVersion(nugetVersion);
-     msBuildSettings.Properties["PackageVersion"] = new string[]{ nugetVersion };
-
-     var framework = "netcoreapp20";
-
-     var settings = new DotNetCorePublishSettings
-     {
-         Framework = framework,
-         Configuration = configuration,
-         OutputDirectory = toolsDir,
-         MSBuildSettings = msBuildSettings
-     };
-
-     DotNetCorePublish("./src/GitVersionExe", settings);
+    CreateDirectory(outputDir);
+    CreateDirectory(toolsDir);
+    CreateDirectory(libDir);
 
 
+    var msBuildSettings = new DotNetCoreMSBuildSettings();
+    msBuildSettings.SetVersion(nugetVersion);
+    msBuildSettings.Properties["PackageVersion"] = new string[]{ nugetVersion };
 
-     // var targetDir = "./src/GitVersionExe/bin/" + configuration + "/" + framework + "/";
+    var framework = "netcoreapp20";
+
+    var settings = new DotNetCorePublishSettings
+    {
+        Framework = framework,
+        Configuration = configuration,
+        OutputDirectory = toolsDir,
+        MSBuildSettings = msBuildSettings
+    };
+
+    DotNetCorePublish("./src/GitVersionExe/GitVersionExe.csproj", settings);
+    // var targetDir = "./src/GitVersionExe/bin/" + configuration + "/" + framework + "/";
 
     var nugetAssetsPath = "./src/GitVersionExe/NugetAssets/";
     Information("Copying files to packaging direcory..");
@@ -338,6 +335,12 @@ Task("GitVersion-DotNet-Package")
 
     var nuGetPackSettings  = new NuGetPackSettings {  Version = nugetVersion, BasePath  = outputDir, OutputDirectory = outputDir };
     NuGetPack(outputDir + "/GitVersion.CommandLine.DotNetCore.nuspec", nuGetPackSettings);
+
+    DotNetCorePack("./src/GitVersionExe/GitVersion.Tool.csproj", new DotNetCorePackSettings {
+        Configuration = configuration,
+        OutputDirectory = outputDir,
+        MSBuildSettings = msBuildSettings
+    });
 })
 .ReportError(exception =>
 {
@@ -350,22 +353,22 @@ Task("GitVersionTaskPackage")
     .Does(() =>
 {
 
-     var outputDir = buildDir + "NuGetTaskBuild";
-     CreateDirectory(outputDir);
+    var outputDir = buildDir + "NuGetTaskBuild";
+    CreateDirectory(outputDir);
 
-     var msBuildSettings = new DotNetCoreMSBuildSettings();
-     msBuildSettings.SetVersion(nugetVersion);
+    var msBuildSettings = new DotNetCoreMSBuildSettings();
+    msBuildSettings.SetVersion(nugetVersion);
 
-     msBuildSettings.Properties["PackageVersion"] = new string[]{ nugetVersion };
-     var settings = new DotNetCorePackSettings
-     {
-         Configuration = configuration,
-         OutputDirectory = outputDir,
-         NoBuild = true,
-         MSBuildSettings = msBuildSettings
-     };
+    msBuildSettings.Properties["PackageVersion"] = new string[]{ nugetVersion };
+    var settings = new DotNetCorePackSettings
+    {
+        Configuration = configuration,
+        OutputDirectory = outputDir,
+        NoBuild = true,
+        MSBuildSettings = msBuildSettings
+    };
 
-     DotNetCorePack("./src/GitVersionTask", settings);
+    DotNetCorePack("./src/GitVersionTask", settings);
 
 })
 .ReportError(exception =>
@@ -445,6 +448,7 @@ Task("Upload-AppVeyor-Artifacts")
         "NuGetExeBuild:GitVersion.Portable." + nugetVersion +".nupkg",
         "NuGetCommandLineBuild:GitVersion.CommandLine." + nugetVersion +".nupkg",
         "NuGetExeDotNetCoreBuild:GitVersion.CommandLine.DotNetCore." + nugetVersion +".nupkg",
+        "NuGetExeDotNetCoreBuild:GitVersion.CommandLine.DotNetCore.Tool." + nugetVersion +".nupkg",
         "NuGetRefBuild:GitVersionCore." + nugetVersion +".nupkg",
         "NuGetTaskBuild:GitVersionTask." + nugetVersion +".nupkg",
         "zip:GitVersion_" + nugetVersion + ".zip",
@@ -456,6 +460,7 @@ Task("Upload-AppVeyor-Artifacts")
     AppVeyor.UploadArtifact("build/NuGetExeBuild/GitVersion.Portable." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetCommandLineBuild/GitVersion.CommandLine." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetExeDotNetCoreBuild/GitVersion.CommandLine.DotNetCore." + nugetVersion +".nupkg");
+    AppVeyor.UploadArtifact("build/NuGetExeDotNetCoreBuild/GitVersion.CommandLine.DotNetCore.Tool." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetRefBuild/GitVersionCore." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/NuGetTaskBuild/GitVersionTask." + nugetVersion +".nupkg");
     AppVeyor.UploadArtifact("build/GitVersion_" + nugetVersion + ".zip");

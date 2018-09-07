@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <TargetFrameworks>netcoreapp2.1</TargetFrameworks>
+    <ToolCommandName>dotnet-gitversion</ToolCommandName>
+  </PropertyGroup>
+
+  <Import Project="GitVersionExe.csproj" />
+
+  <PropertyGroup>
+    <PackageId>GitVersion.CommandLine.DotNetCore.Tool</PackageId>
+  </PropertyGroup>
+
+</Project>
